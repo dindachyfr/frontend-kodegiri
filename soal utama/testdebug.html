@@ -507,7 +507,7 @@ function compare(a,b) {
 function compareDeep(a,b) {
   var tmpStra = a.attribute.split(".");
   var tmpStrb = b.attribute.split(".");
-  if(tmpStra >= 5 && tmpStrb.length >= 5){
+  if(tmpStra.length >= 5 && tmpStrb.length >= 5){
     var cleanA = tmpStra[3].match(/\d/g).join("");
     var cleanB = tmpStrb[3].match(/\d/g).join("");
     if(parseInt(cleanA) < parseInt(cleanB)){
@@ -524,10 +524,12 @@ function compareDeep(a,b) {
 
 
 function compareDeep2(a,b) {
-  var tmpStra = a.attribute;
-  var tmpStrb = b.attributes;
-  var cleanA = tmpStra.match(/\[\d+/g);
-  var cleanB = tmpStrb.match(/\[\d+/g);  
+  var tmpStra = a.attribute.split(".");
+  var tmpStrb = b.attribute.split(".");
+  // var cleanA = tmpStra.match(/\d/g);
+  // var cleanB = tmpStrb.match(/\d/g);  
+  var cleanA = tmpStra; //tidak bisa di-match di sini karna method tsb untuk string, bukan array. dimana clean A adalah property attribute yang dijadikan array dengan method split tadi
+  var cleanB = tmpStrb;  
   console.log(tmpStra);
   console.log(cleanA);
   if(cleanA == null)
@@ -536,8 +538,8 @@ function compareDeep2(a,b) {
     return 1;
     
   for(var i=0;i<cleanA.length && i<cleanB.length;i++){
-    var a = parseInt(cleanA[i].slice(1, cleanA[i].length));  //tidak mengisikan argumen untuk indexnya
-    var b = parseInt(cleanB[i].slice(1, cleanB[i].length));
+    var a = parseInt(cleanA[i].slice(-2, cleanA.length));  //tidak mengisikan argumen untuk index dari cleanA
+    var b = parseInt(cleanB[i].slice(-2, cleanA.length));  //yang kalau length nya sama, cukup dua index dari belakang yang di urutkan
 
     if (a < b)
       return -1;
@@ -551,10 +553,10 @@ function compareDeep2(a,b) {
 
     //replace(/\[+(\d+)+\]/g,'');
   
-  var tmpIgA = tmpStra.replace(/\[+(\d+)+\]/g,'');
-  var tmpIgB = tmpStrb.replace(/\[+(\d+)+\]/g,'');
+  var tmpIgA = cleanA.join(".").replace(/\[+(\d+)+\]/g,'');
+  var tmpIgB = cleanB.join(".").replace(/\[+(\d+)+\]/g,'');
   
-  return compare(tmpStra);
+  return compare(tmpIgA, tmpIgB); //yang di-compare adalah var tmpIgA dan tmpIgB
 }
 
 
