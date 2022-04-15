@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soal Utama</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main class="container">
+        <section class="value-label">
+        </section>
+        <button class="show-value-label">Hide Label</button>
+        <div class="quest-456">
+            <h3>Click on a row to delete selected data</h3>
+            <button class="delete-a-key">Remove a column</button>
+        </div>
+        <section class="value-json-wrapper">
+        </section>
+    </main>
+    <script type='text/javascript'>
+        //no 1, 2
+        let show1 = true
+        let array = [
+            {
+                "id": 1,
+                "name": "Nana",
+                "city": "Jakarta"
+            }, {
+                "id": 2,
+                "name": "Nita",
+                "city": "Tangerang"
+            }, {
+                "id": 3,
+                "name": "Nina",
+                "city": "Depok"
+            }
+        ]
+        array.slice(0, 1).map((item) => {
+            // if (item.id === 1) {
+            document.querySelector('.value-label').innerHTML +=
+                `<div>
+                        <div class="card-label">
+                            <h5 class="text-label">${item.name}</h5>
+                            <h4 class="text-label">${item.city}</h4>
+                        </div>
+                        <button class="button-label" onclick="changeValue(${item.id})">Change Value</button>
+                        </div>`
+            // }
+        })
+        const changeValue = (id) => {
+            if (id === 1) {
+                document.querySelector('.value-label').innerHTML = '';
+                document.querySelector('.value-label').innerHTML +=
+                    `<div>
+                        <div class="card-label">
+                            <h5 class="text-label">${array[1].name}</h5>
+                            <h4 class="text-label">${array[1].city}</h4>
+                        </div>
+                        <button class="button-label" onclick="changeValue(${array[1].id})">Change Value</button>
+                        </div>`
+            } else {
+                document.querySelector('.value-label').innerHTML = '';
+                document.querySelector('.value-label').innerHTML +=
+                    `<div>
+                        <div class="card-label">
+                            <h5 class="text-label">${array[0].name}</h5>
+                            <h4 class="text-label">${array[0].city}</h4>
+                        </div>
+                        <button class="button-label" onclick="changeValue(${array[0].id})">Change Value</button>
+                        </div>`
+            }
+        }
+        let showValButton = document.querySelector('.show-value-label')
+        showValButton.addEventListener('click', () => {
+            if (show1) {
+                show1 = false
+                document.querySelector('.value-label').style = 'display: none'
+                document.querySelector('.show-value-label').innerHTML = `
+                Show Label`
+            } else {
+                show1 = true
+                document.querySelector('.value-label').style = 'display: block'
+                document.querySelector('.show-value-label').innerHTML = `
+                Hide Label`
+            }
+        })
+
+        //no 3,4,5,6
+        //fetch data
+        let dataa1 = []
+        fetch('http://jsonplaceholder.typicode.com/posts')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                // dataa1 = data.slice(0,10)
+                data.slice(0, 10).map((item) => {
+                    dataa1.push(item)
+                })
+                updateDataa()
+            })
+        console.log(dataa1);
+
+        const updateDataa = () => {
+            document.querySelector('.value-json-wrapper').innerHTML = '';
+            document.querySelector('.value-json-wrapper').innerHTML += `
+                <section class="value-json">
+                <div class="border id">id</div>
+                <div class="border title">title</div>
+                <div class="border body">body</div>
+            </section>
+                `;
+            dataa1.map((item) => {
+                // document.querySelector('.value-json-wrapper').innerHTML = '';
+                document.querySelector('.value-json-wrapper').innerHTML +=
+                    `<section class="value-json" onclick="delItem(${item.id})">
+                            <div class="border id">${item.id}</div>
+                            <div class="border title">${item.title}</div>
+                            <div class="border body">${item.body}</div>
+                        </section>`
+            })
+        }
+        const delItem = (id) => {
+                dataa1 = dataa1.filter((item) => item.id !== id)
+                updateDataa()
+        }
+
+        let removeKey = document.querySelector('.delete-a-key')
+        removeKey.addEventListener('click', () => {
+            let newData = dataa1.map((item) => ({ title: item.title, body: item.body }))
+            console.log(newData);
+            document.querySelector('.value-json-wrapper').innerHTML = '';
+            document.querySelector('.value-json-wrapper').innerHTML += `
+                <section class="value-json">
+                <div class="border title">title</div>
+                <div class="border body">body</div>
+            </section>
+                `;
+            newData.map((item) => {
+                document.querySelector('.value-json-wrapper').innerHTML +=
+                `<section class="value-json" onclick="delItem(${item.id})">
+                            <div class="border title">${item.title}</div>
+                            <div class="border body">${item.body}</div>
+                        </section>`
+            })
+
+        })
+    </script>
+</body>
+
+</html>

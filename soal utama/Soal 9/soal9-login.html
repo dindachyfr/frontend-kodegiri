@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soal 9</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main class="container">
+        <div class="wrapper-form-login">
+            <h4 class="text-center">Login Page</h4>
+            <form action="" class="form form-username">
+                <label for="username">Username</label>
+                <input type="text" placeholder="Username, e.g. jeffbesoz" onchange="handleInputName(this)" />
+            </form>
+            <form action="" class="form form-username">
+                <label for="username">Password</label>
+                <input type="text" placeholder="Insert your password" onchange="handleInputPW(this)" />
+            </form>
+            <div class="wrapper-btn-login">
+                <button class="btn-login" onclick="login()">Login</button>
+            </div>
+        </div>
+    </main>
+    <script type='text/javascript'>
+        let tempData = {
+            username: null,
+            password: null
+        }
+        const handleInputName = (e) => {
+            tempData = { ...tempData, username: e.value }
+        }
+        const handleInputPW = (e) => {
+            tempData = { ...tempData, password: e.value }
+        }
+        const login = () => {
+            if (tempData.username && tempData.password.length > 5) {
+                localStorage.setItem('user', JSON.stringify(tempData))
+                document.querySelector('.wrapper-form-login').innerHTML = '';
+                document.querySelector('.wrapper-form-login').innerHTML += `
+            <h2 class="text-center">Selamat Datang, ${tempData.username}!</h2>
+            <div class="wrapper-btn-login">
+                <button class="btn-logout" onclick="logout()">Logout</button>
+            </div>`
+            } else if(tempData.username && tempData.password.length<5){
+                document.querySelector('.wrapper-form-login').innerHTML += `
+                <h4 class="text-center text-danger">Minimum password length is 6 characters</h4>
+                `
+            }
+            else{
+                document.querySelector('.wrapper-form-login').innerHTML += `
+                <h4 class="text-center text-danger">Fill in all forms please!</h4>
+                `
+            }
+        }
+        const logout = () => {
+            localStorage.clear()
+            document.querySelector('.wrapper-form-login').innerHTML = '';
+            document.querySelector('.wrapper-form-login').innerHTML += `
+            <h4 class="text-center">Login Page</h4>
+            <form action="" class="form form-username">
+                <label for="username">Username</label>
+                <input type="text" placeholder="Username, e.g. jeffbesoz" onchange="handleInputName(this)" />
+            </form>
+            <form action="" class="form form-username">
+                <label for="username">Password</label>
+                <input type="text" placeholder="Insert your password" onchange="handleInputPW(this)" />
+            </form>
+            <div class="wrapper-btn-login">
+                <button class="btn-login" onclick="login()">Login</button>
+            </div>
+            `;
+        }
+    </script>
+</body>
+
+</html>

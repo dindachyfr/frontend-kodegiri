@@ -1,0 +1,49 @@
+.container{
+    width: 100%;
+    min-height: 100%;
+}
+
+.wrapper-form-login{
+ width: 25%;
+ margin: 0 auto;
+}
+
+.form{
+    width: 100%;
+    display: flex;
+    margin: 1rem;
+    align-items: center;
+}
+
+label{
+    width: 25%;
+}
+
+input{
+    padding: .5rem;
+    width: 75%;
+    border-radius: .5rem;
+    border: solid 1px #ccc;
+}
+
+.btn-login, .btn-logout{
+    width: 10rem;
+    cursor: pointer;
+    padding: .5rem;
+    border-radius: 1rem;
+    border: solid 1px #8f8c8cb1
+}
+
+.wrapper-btn-login{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.text-danger{
+    color: rgb(241, 41, 41)
+}
